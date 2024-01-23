@@ -3,14 +3,13 @@ from numpy.fft import rfft, rfftfreq
 
 from scipy.signal import spectrogram
 
-# from scipy.io.wavfile import read
 from soundfile import read
 
-# from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QPushButton, QMainWindow, QCheckBox, QApplication, QFileDialog,QMessageBox,QLabel,QGroupBox
-from PyQt5.QtGui import QIcon
-from PyQt5.uic import loadUi
-from PyQt5.QtMultimedia import QSound
+from PyQt6.uic import loadUi
+from PyQt6.QtCore import QUrl
+from PyQt6.QtWidgets import QPushButton, QMainWindow, QCheckBox, QApplication, QFileDialog,QMessageBox,QLabel,QGroupBox
+from PyQt6.QtGui import QFont
+from PyQt6.QtMultimedia import QMediaPlayer,QAudioOutput
 import pyqtgraph as pg
 from qt_material import apply_stylesheet
 
@@ -35,7 +34,7 @@ class Mono_visualizer(QMainWindow):
     def __init__(self,parent = None):
         super(Mono_visualizer,self).__init__(parent)
 
-        loadUi(resource_path("add\mono_window.ui"),self)
+        loadUi(resource_path(R"add\mono_window.ui"),self)
 
         self.ir1_box = self.findChild(QGroupBox,"ir1_box")
         self.ir1_box.setStyleSheet("QGroupBox#ir1_box { border: 2px solid #8bc34a }")
@@ -46,24 +45,31 @@ class Mono_visualizer(QMainWindow):
         self.ir4_box = self.findChild(QGroupBox,"ir4_box")
         self.ir4_box.setStyleSheet("QGroupBox#ir4_box { border: 2px solid #c77dff }")
 
+        myFont = QFont()
+        myFont.setBold(True)
+
         self.ir1_button = self.findChild(QPushButton,"ir1_button")
         self.ir1_button.clicked.connect(lambda: self.loadfile1())
         self.label1 = self.findChild(QLabel,"label1")
+        self.label1.setFont(myFont)
 
         self.ir2_button = self.findChild(QPushButton,"ir2_button")
         self.ir2_button.setEnabled(False)
         self.ir2_button.clicked.connect(lambda: self.loadfile2())
         self.label2 = self.findChild(QLabel,"label2")
+        self.label2.setFont(myFont)
         
         self.ir3_button = self.findChild(QPushButton,"ir3_button")
         self.ir3_button.clicked.connect(lambda: self.loadfile3())
         self.ir3_button.setEnabled(False)
         self.label3 = self.findChild(QLabel,"label3")
+        self.label3.setFont(myFont)
         
         self.ir4_button = self.findChild(QPushButton,"ir4_button")
         self.ir4_button.clicked.connect(lambda: self.loadfile4())
         self.ir4_button.setEnabled(False)
         self.label4 = self.findChild(QLabel,"label4")
+        self.label4.setFont(myFont)
 
         self.play1_button = self.findChild(QPushButton,"play1_button")
         self.play1_button.setEnabled(False)
@@ -399,14 +405,18 @@ class Mono_visualizer(QMainWindow):
     
     def playIR(self,filepath):
         datapath = filepath
-        QSound.play(datapath)
+        self.player = QMediaPlayer()
+        self.audio_output = QAudioOutput()
+        self.player.setAudioOutput(self.audio_output)
+        self.player.setSource(QUrl.fromLocalFile(datapath))
+        self.player.play()
         return
 
 class Stereo_visualizer(QMainWindow):
     def __init__(self,parent=None):
         super(Stereo_visualizer,self).__init__(parent)
 
-        loadUi(resource_path("add\stereo_window.ui"),self)
+        loadUi(resource_path(R"add\stereo_window.ui"),self)
 
         self.ir1_box = self.findChild(QGroupBox,"ir1_box")
         self.ir1_box.setStyleSheet("QGroupBox#ir1_box { border: 2px solid #8bc34a }")
@@ -522,8 +532,11 @@ class Stereo_visualizer(QMainWindow):
     
     def playIR(self,filepath):
         datapath = filepath
-        print(datapath)
-        QSound.play(datapath)
+        self.player = QMediaPlayer()
+        self.audio_output = QAudioOutput()
+        self.player.setAudioOutput(self.audio_output)
+        self.player.setSource(QUrl.fromLocalFile(datapath))
+        self.player.play()
         return
 
     def check_length(self,sr,ir):
@@ -954,4 +967,4 @@ stereo_window = Stereo_visualizer()
 mono_window = Mono_visualizer()
 apply_stylesheet(app,theme='dark_lightgreen.xml')
 mono_window.show()
-app.exec_()
+app.exec()
