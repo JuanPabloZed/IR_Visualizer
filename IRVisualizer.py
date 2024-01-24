@@ -250,7 +250,7 @@ class Mono_visualizer(QMainWindow):
         h_spec = padNhamm(self.ir1)
         fft = rfft(h_spec)
         f1 = rfftfreq(len(h_spec),1/self.sr1)
-        fft_toplot = smooth(20*log10(abs(fft)),len(f1)//500)-maax(20*log10(abs(fft)))
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(fft)//2000))-maax(20*log10(abs(fft)))
         # cropping fft between 20Hz and 20kHz
         i = 0
         j = -1
@@ -294,7 +294,7 @@ class Mono_visualizer(QMainWindow):
         h_spec = padNhamm(self.ir2)
         fft = rfft(h_spec)
         f1 = rfftfreq(len(h_spec),1/self.sr2)
-        fft_toplot = smooth(20*log10(abs(fft)),len(f1)//500)-maax(20*log10(abs(fft)))
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(fft)//2000))-maax(20*log10(abs(fft)))
         # cropping between 20Hz and 20kHz
         i = 0
         j = -1
@@ -339,7 +339,7 @@ class Mono_visualizer(QMainWindow):
         h_spec = padNhamm(self.ir3)
         fft = rfft(h_spec)
         f1 = rfftfreq(len(h_spec),1/self.sr3)
-        fft_toplot = smooth(20*log10(abs(fft)),len(f1)//500)-maax(20*log10(abs(fft)))
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(fft)//2000))-maax(20*log10(abs(fft)))
         # cropping between 20Hz and 20kHz
         i = 0
         j = -1
@@ -381,7 +381,7 @@ class Mono_visualizer(QMainWindow):
         h_spec = padNhamm(self.ir4)
         fft = rfft(h_spec)
         f1 = rfftfreq(len(h_spec),1/self.sr4)
-        fft_toplot = smooth(20*log10(abs(fft)),len(f1)//500)-maax(20*log10(abs(fft)))
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(fft)//2000))-maax(20*log10(abs(fft)))
         # cropping between 20Hz and 20kHz
         i = 0
         j = -1

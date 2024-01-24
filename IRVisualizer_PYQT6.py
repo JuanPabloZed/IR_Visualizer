@@ -34,7 +34,7 @@ class Mono_visualizer(QMainWindow):
     def __init__(self,parent = None):
         super(Mono_visualizer,self).__init__(parent)
 
-        loadUi(resource_path(R"add\mono_window.ui"),self)
+        loadUi(resource_path(R"add6\mono_window.ui"),self)
 
         self.ir1_box = self.findChild(QGroupBox,"ir1_box")
         self.ir1_box.setStyleSheet("QGroupBox#ir1_box { border: 2px solid #8bc34a }")
@@ -419,7 +419,7 @@ class Stereo_visualizer(QMainWindow):
     def __init__(self,parent=None):
         super(Stereo_visualizer,self).__init__(parent)
 
-        loadUi(resource_path(R"add\stereo_window.ui"),self)
+        loadUi(resource_path(R"add6\stereo_window.ui"),self)
 
         self.ir1_box = self.findChild(QGroupBox,"ir1_box")
         self.ir1_box.setStyleSheet("QGroupBox#ir1_box { border: 2px solid #8bc34a }")
@@ -430,24 +430,31 @@ class Stereo_visualizer(QMainWindow):
         self.ir4_box = self.findChild(QGroupBox,"ir4_box")
         self.ir4_box.setStyleSheet("QGroupBox#ir4_box { border: 2px solid #c77dff }")
         
+        myFont = QFont()
+        myFont.setBold(True)
+        
         self.ir1_button = self.findChild(QPushButton,"ir1_button")
         self.ir1_button.clicked.connect(lambda: self.loadfile1())
         self.label1 = self.findChild(QLabel,"label1")
+        self.label1.setFont(myFont)
 
         self.ir2_button = self.findChild(QPushButton,"ir2_button")
         self.ir2_button.setEnabled(False)
         self.ir2_button.clicked.connect(lambda: self.loadfile2())
         self.label2 = self.findChild(QLabel,"label2")
+        self.label2.setFont(myFont)
         
         self.ir3_button = self.findChild(QPushButton,"ir3_button")
         self.ir3_button.clicked.connect(lambda: self.loadfile3())
         self.ir3_button.setEnabled(False)
         self.label3 = self.findChild(QLabel,"label3")
+        self.label3.setFont(myFont)
         
         self.ir4_button = self.findChild(QPushButton,"ir4_button")
         self.ir4_button.clicked.connect(lambda: self.loadfile4())
         self.ir4_button.setEnabled(False)
         self.label4 = self.findChild(QLabel,"label4")
+        self.label4.setFont(myFont)
 
         self.play1_button = self.findChild(QPushButton,"play1_button")
         self.play1_button.setEnabled(False)
@@ -702,7 +709,7 @@ class Stereo_visualizer(QMainWindow):
         h_spec = padNhamm(ir_avg)
         fft = rfft(h_spec)
         f1 = rfftfreq(len(h_spec),1/self.sr1)
-        fft_toplot = smooth(20*log10(abs(fft)),len(f1)//500)-maax(20*log10(abs(fft)))
+        fft_toplot = smooth(20*log10(abs(fft)),int(time[-1]*275))-maax(20*log10(abs(fft)))
         # keeping info between 20Hz and 20kHz
         i = 0
         j = -1
@@ -937,8 +944,6 @@ class Stereo_visualizer(QMainWindow):
         # left side
         histL = pg.HistogramLUTItem()
         histL.setImageItem(imgL)
-        print("max sxx = ", maax(Sxx))
-        print("min sxx = ", miin(Sxx))
         # histL.setLevels(miin(Sxx), maax(Sxx))
         histL.gradient.restoreState(
         {'mode': 'rgb',
