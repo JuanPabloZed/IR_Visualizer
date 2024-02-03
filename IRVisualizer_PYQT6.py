@@ -117,7 +117,7 @@ class Mono_visualizer(QMainWindow):
         self.spectral_plot.setLogMode(x=True)
         self.spectral_plot.showGrid(x=True,y=True)
         self.spectral_plot.setLabel('bottom','Frequency',units='Hz')
-        self.spectral_plot.setLabel('left','Amplitude',units='dB')
+        self.spectral_plot.setLabel('left','Amplitude')#,units='dB')
 
         # curves array
         self.ircurves = [0,0,0,0]
@@ -256,7 +256,6 @@ class Mono_visualizer(QMainWindow):
         h_spec = padNhamm(self.ir1)
         fft = rfft(h_spec)
         f1 = rfftfreq(len(h_spec),1/self.sr1)
-        # fft_toplot = 20*log10(abs(fft))-maax(20*log10(abs(fft)))
         fft_toplot = smooth(20*log10(abs(fft)),max(4,len(f1)//2000))-maax(20*log10(abs(fft)))
         # cropping fft between 20Hz and 20kHz
         i = 0

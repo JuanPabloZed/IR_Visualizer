@@ -686,7 +686,7 @@ class Stereo_visualizer(QMainWindow):
         h_spec = padNhamm(ir_avg)
         fft = rfft(h_spec)
         f1 = rfftfreq(len(h_spec),1/self.sr1)
-        fft_toplot = smooth(20*log10(abs(fft)),len(f1)//500)-maax(20*log10(abs(fft)))
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(f1)//800))-maax(20*log10(abs(fft)))
         # keeping info between 20Hz and 20kHz
         i = 0
         j = -1
@@ -744,8 +744,8 @@ class Stereo_visualizer(QMainWindow):
         ir_avg = (self.ir2[:,0] + self.ir2[:,1]) / 2
         h_spec = padNhamm(ir_avg)
         fft = rfft(h_spec)
-        fft_toplot = smooth(20*log10(abs(fft)),int(time[-1]*275))-maax(20*log10(abs(fft)))
         f1 = rfftfreq(len(h_spec),1/self.sr2)
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(f1)//350))-maax(20*log10(abs(fft)))
         # keeping info between 20Hz and 20kHz
         i = 0
         j = -1
@@ -803,8 +803,8 @@ class Stereo_visualizer(QMainWindow):
         ir_avg = (self.ir3[:,0] + self.ir3[:,1]) / 2
         h_spec = padNhamm(ir_avg)
         fft = rfft(h_spec)
-        fft_toplot = smooth(20*log10(abs(fft)),int(time[-1]*275))-maax(20*log10(abs(fft)))
         f1 = rfftfreq(len(h_spec),1/self.sr3)
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(f1)//800))-maax(20*log10(abs(fft)))
         # keeping info between 20Hz and 20kHz
         i = 0
         j = -1
@@ -859,8 +859,8 @@ class Stereo_visualizer(QMainWindow):
         ir_avg = (self.ir4[:,0] + self.ir4[:,1]) / 2
         h_spec = padNhamm(ir_avg)
         fft = rfft(h_spec)
-        fft_toplot = smooth(20*log10(abs(fft)),int(time[-1]*275))-maax(20*log10(abs(fft)))
         f1 = rfftfreq(len(h_spec),1/self.sr4)
+        fft_toplot = smooth(20*log10(abs(fft)),max(4,len(f1)//800))-maax(20*log10(abs(fft)))
         # keeping info between 20Hz and 20kHz
         i = 0
         j = -1
